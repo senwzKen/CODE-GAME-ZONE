@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redeem Vault - Exclusive Codes</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --card-bg: #141414;
+            --border: #262626;
+            --text-main: #ffffff;
+            --text-sub: #a1a1aa;
+            --accent: #ffffff;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        h1 { font-size: 1.5rem; letter-spacing: 1px; }
+        p.subtitle { color: var(--text-sub); font-size: 0.85rem; margin-top: 4px; }
+
+        .game-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .game-title {
+            font-size: 1rem;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-left: 3px solid var(--accent);
+            padding-left: 8px;
+        }
+
+        .code-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .code-text {
+            font-family: monospace;
+            font-size: 1rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .code-desc {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+        }
+
+        .btn-copy {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-copy:active { opacity: 0.7; }
+
+        .support-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .support-text {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            margin-bottom: 10px;
+        }
+
+        .btn-support {
+            display: inline-block;
+            background: var(--accent);
+            color: #000;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn-support:active { opacity: 0.7; }
+
+        footer {
+            text-align: center;
+            padding: 20px 0 10px 0;
+            border-top: 1px solid var(--border);
+            margin-top: 1.5rem;
+            color: var(--text-sub);
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        footer span {
+            color: var(--text-main);
+            font-weight: bold;
+        }
+
+        .admin-toggle {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            background: #1e1e1e;
+            color: var(--text-sub);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 20;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            width: 100%;
+            max-width: 420px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h2 { margin-bottom: 1rem; font-size: 1.2rem; }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #000;
+            border: 1px solid var(--border);
+            color: #fff;
+            border-radius: 6px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 10px;
+            background: var(--accent);
+            color: #000;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .admin-manage-list {
+            margin-top: 15px;
+            border-top: 1px solid var(--border);
+            padding-top: 15px;
+        }
+
+        .admin-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #000;
+            border: 1px solid var(--border);
+            padding: 8px 10px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            font-size: 0.8rem;
+        }
+
+        .btn-delete {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .btn-close {
+            background: transparent;
+            color: var(--text-sub);
+            border: none;
+            width: 100%;
+            margin-top: 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div>
+        <header>
+            <h1>REDEEM VAULT</h1>
+            <p class="subtitle">Kumpulan Kode Gift & Redeem Gratis Terbaru</p>
+        </header>
+
+        <div id="content">
+            <div class="game-section">
+                <h2 class="game-title">Mobile Legends</h2>
+                <div id="list-mlbb"></div>
+            </div>
+
+            <div class="game-section">
+                <h2 class="game-title">Free Fire</h2>
+                <div id="list-ff"></div>
+            </div>
+
+            <div class="game-section">
+                <h2 class="game-title">Genshin Impact</h2>
+                <div id="list-genshin"></div>
+            </div>
+
+            <div class="game-section">
+                <h2 class="game-title">Roblox</h2>
+                <div id="list-roblox"></div>
+            </div>
+
+            <div class="game-section">
+                <h2 class="game-title">PUBG Mobile</h2>
+                <div id="list-pubg"></div>
+            </div>
+        </div>
+
+        <div class="support-section">
+            <p class="support-text">Dukung proyek ini agar rajin gift code redeem</p>
+            <a href="https://sociabuzz.com/kenzzie/tribe" target="_blank" class="btn-support">Donasi / Dukung Kreator</a>
+        </div>
+    </div>
+
+    <footer>
+        Produksi by <span>Kenzie</span> &copy; 2026
+    </footer>
+</div>
+
+<button class="admin-toggle" onclick="openAdminModal()">⚡ Admin Login</button>
+
+<div class="modal" id="adminModal">
+    <div class="modal-content">
+        <h2 id="modalTitle">Login Admin</h2>
+        
+        <div id="loginForm">
+            <input type="password" id="adminPass" placeholder="Masukkan PIN Admin">
+            <button class="btn-submit" onclick="checkAuth()">Masuk</button>
+        </div>
+
+        <div id="adminPanel" style="display: none;">
+            <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 8px;">Tambah Kode Baru:</p>
+            <select id="gameSelect">
+                <option value="mlbb">Mobile Legends</option>
+                <option value="ff">Free Fire</option>
+                <option value="genshin">Genshin Impact</option>
+                <option value="roblox">Roblox</option>
+                <option value="pubg">PUBG Mobile</option>
+            </select>
+            <input type="text" id="inputCode" placeholder="Kode Redeem (misal: BOYAHH7)">
+            <input type="text" id="inputDesc" placeholder="Hadiah (misal: Bundle Langka)">
+            <button class="btn-submit" onclick="addCode()">+ Tambahkan Kode</button>
+
+            <div class="admin-manage-list">
+                <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 8px;">Daftar Kode Aktif (Hapus jika ingin mengganti):</p>
+                <div id="adminCodeList"></div>
+            </div>
+        </div>
+
+        <button class="btn-close" onclick="closeAdminModal()">Tutup</button>
+    </div>
+</div>
+
+<script>
+    const SECRET_HASH = "eW9uZ2FwYWluZGloYWNr"; 
+
+    let defaultData = [
+        { game: 'mlbb', code: 'MLBBGIFT2026', desc: 'Fragment & Skin Trial' },
+        { game: 'ff', code: 'FFBOOYAH1', desc: 'Bundle Langka' },
+        { game: 'genshin', code: 'GENSHINPRIZE', desc: '60 Primogems' },
+        { game: 'roblox', code: 'ROBLOXED2026', desc: 'Free Exclusive Item' },
+        { game: 'pubg', code: 'PUBGMOBILEGIFT', desc: 'Classic Crate Coupon' },
+        { game: 'EA Sport FC mobile', code: 'FCSPORT', desc: 'Token 50' },
+    ];
+
+    function getData() {
+        return JSON.parse(localStorage.getItem('redeem_codes')) || defaultData;
+    }
+
+    function loadCodes() {
+        let savedData = getData();
+        
+        const gameKeys = ['mlbb', 'ff', 'genshin', 'roblox', 'pubg'];
+        gameKeys.forEach(key => {
+            const el = document.getElementById(`list-${key}`);
+            if(el) el.innerHTML = '';
+        });
+
+        savedData.forEach((item) => {
+            const cardHTML = `
+                <div class="code-card">
+                    <div class="code-info">
+                        <span class="code-text">${item.code}</span>
+                        <span class="code-desc">${item.desc}</span>
+                    </div>
+                    <button class="btn-copy" onclick="copyCode('${item.code}')">SALIN</button>
+                </div>
+            `;
+            const container = document.getElementById(`list-${item.game}`);
+            if (container) container.innerHTML += cardHTML;
+        });
+    }
+
+    function loadAdminList() {
+        let savedData = getData();
+        const listContainer = document.getElementById('adminCodeList');
+        listContainer.innerHTML = '';
+
+        savedData.forEach((item, index) => {
+            listContainer.innerHTML += `
+                <div class="admin-item">
+                    <span><b>[${item.game.toUpperCase()}]</b> ${item.code}</span>
+                    <button class="btn-delete" onclick="deleteCode(${index})">Hapus</button>
+                </div>
+            `;
+        });
+    }
+
+    function copyCode(text) {
+        navigator.clipboard.writeText(text);
+        alert('Kode berhasil disalin: ' + text);
+    }
+
+    function openAdminModal() {
+        document.getElementById('adminModal').style.display = 'flex';
+    }
+
+    function closeAdminModal() {
+        document.getElementById('adminModal').style.display = 'none';
+        setTimeout(() => {
+            document.getElementById('modalTitle').innerText = "Login Admin";
+            document.getElementById('loginForm').style.display = "block";
+            document.getElementById('adminPanel').style.display = "none";
+            document.getElementById('adminPass').value = '';
+        }, 300);
+    }
+
+    function checkAuth() {
+        const pass = document.getElementById('adminPass').value;
+        if (btoa(pass) === SECRET_HASH) {
+            document.getElementById('modalTitle').innerText = "Panel Admin & Kelola Kode";
+            document.getElementById('loginForm').style.display = "none";
+            document.getElementById('adminPanel').style.display = "block";
+            loadAdminList();
+        } else {
+            alert("PIN Salah!");
+        }
+    }
+
+    function addCode() {
+        const game = document.getElementById('gameSelect').value;
+        const code = document.getElementById('inputCode').value.trim();
+        const desc = document.getElementById('inputDesc').value.trim();
+
+        if (!code || !desc) {
+            alert("Isi semua data!");
+            return;
+        }
+
+        let savedData = getData();
+        savedData.unshift({ game, code, desc });
+
+        localStorage.setItem('redeem_codes', JSON.stringify(savedData));
+        
+        alert("Kode berhasil ditambahkan!");
+        document.getElementById('inputCode').value = '';
+        document.getElementById('inputDesc').value = '';
+        
+        loadCodes();
+        loadAdminList();
+    }
+
+    function deleteCode(index) {
+        let savedData = getData();
+        savedData.splice(index, 1);
+        localStorage.setItem('redeem_codes', JSON.stringify(savedData));
+        
+        loadCodes();
+        loadAdminList();
+    }
+
+    loadCodes();
+</script>
+</body>
+      </html>
+                  
