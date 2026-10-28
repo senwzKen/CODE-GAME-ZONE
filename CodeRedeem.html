@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080808">
+<meta name="description" content="GAMEZONE - Informasi game dan kode redeem gratis. Produksi by Kenzie.">
+<title>GAMEZONE — Game & Redeem</title>
+<style>
+:root {
+  --bg:#080808;--panel:#111;--border:#292929;
+  --text:#f5f5f5;--muted:#999;--white:#fff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;line-height:1.6
+}
+button,input{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+header{
+  position:sticky;top:0;z-index:10;background:#080808ee;
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--border)
+}
+.nav{
+  max-width:1050px;margin:auto;padding:14px 18px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px
+}
+.logo{font-size:23px;font-weight:900;letter-spacing:1px}
+.logo span{border:1px solid white;padding:2px 5px;margin-right:5px}
+.navlinks{display:flex;gap:16px;font-size:13px;color:#ccc}
+.navlinks a:hover{color:white}
+main{max-width:1050px;margin:auto;padding:22px 18px 60px}
+.hero{
+  border:1px solid var(--border);border-radius:20px;padding:28px 22px;
+  background:linear-gradient(135deg,#171717,#080808 70%);
+  margin-bottom:24px
+}
+.tag{
+  display:inline-block;border:1px solid #555;border-radius:30px;
+  padding:4px 10px;font-size:11px;letter-spacing:1px;color:#ddd
+}
+h1{font-size:clamp(34px,7vw,58px);line-height:1.05;margin:18px 0 12px}
+.hero p{color:#aaa;max-width:550px;font-size:15px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn{
+  border:1px solid #444;border-radius:10px;padding:11px 15px;
+  background:#f5f5f5;color:#080808;font-weight:bold
+}
+.btn.secondary{background:#171717;color:#fff}
+.btn:hover{opacity:.82}
+.section{margin-top:30px}
+.section-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;margin-bottom:14px
+}
+h2{font-size:21px;margin:0}
+.muted{color:var(--muted);font-size:13px}
+.searchbox{display:flex;gap:8px;margin:14px 0}
+.searchbox input{
+  width:100%;min-width:0;background:#111;border:1px solid #333;
+  border-radius:10px;padding:13px;color:white;outline:none
+}
+.searchbox input:focus{border-color:#aaa}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.filter{
+  border:1px solid #333;background:#111;color:#ccc;
+  padding:8px 12px;border-radius:30px;font-size:12px
+}
+.filter.active{background:#fff;color:#000;border-color:#fff}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.card{
+  border:1px solid var(--border);background:var(--panel);
+  border-radius:14px;padding:16px;min-width:0
+}
+.game-icon{
+  width:48px;height:48px;display:grid;place-items:center;
+  border:1px solid #444;border-radius:12px;font-size:24px;
+  margin-bottom:14px;background:#191919
+}
+.card h3{font-size:16px;margin:0 0 5px}
+.card p{font-size:12px;color:var(--muted);margin:0 0 15px}
+.card .btn{width:100%;padding:9px;font-size:12px}
+.schedule{
+  border:1px solid #393939;background:#101010;border-radius:16px;
+  padding:20px
+}
+.schedule-row{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;padding:13px 0;border-bottom:1px solid #292929
+}
+.schedule-row:last-of-type{border:0}
+.schedule time{font-size:19px;font-weight:bold}
+.countdown{
+  background:#1b1b1b;border-radius:10px;padding:13px;
+  margin-top:15px;font-size:14px
+}
+.countdown strong{display:block;font-size:20px;margin-top:3px}
+.notice{
+  border:1px dashed #444;border-radius:12px;padding:18px;
+  text-align:center;color:#aaa;font-size:13px
+}
+.code-item{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;border:1px solid #333;background:#101010;
+  padding:13px;border-radius:10px;margin-top:10px
+}
+.code-item code{overflow-wrap:anywhere;color:white}
+.code-item button{
+  background:white;color:black;border:0;border-radius:7px;
+  padding:8px 10px;font-weight:bold;flex-shrink:0
+}
+footer{
+  border-top:1px solid var(--border);text-align:center;
+  padding:28px 18px;color:#888;font-size:12px
+}
+footer strong{color:white}
+.hidden{display:none!important}
+@media(max-width:650px){
+  .nav{padding:12px}
+  .logo{font-size:19px}
+  .navlinks{gap:10px;font-size:12px}
+  main{padding:16px 13px 45px}
+  .hero{padding:23px 17px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .card{padding:12px}
+  .schedule-row time{font-size:17px}
+}
+@media(max-width:370px){
+  .navlinks{gap:7px;font-size:11px}
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <nav class="nav">
+    <a class="logo" href="#"><span>G</span>AMEZONE</a>
+    <div class="navlinks">
+      <a href="#games">Game</a>
+      <a href="#redeem">Redeem</a>
+      <a href="#jadwal">Jadwal</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <span class="tag">GAME INFO & REDEEM CENTER</span>
+    <h1>MAIN GAME.<br>CARI REDEEM.</h1>
+    <p>
+      Temukan informasi game favoritmu dan pantau jadwal
+      pembagian kode redeem gratis di GAMEZONE.
+    </p>
+    <div class="actions">
+      <a class="btn" href="#games">Jelajahi Game ↗</a>
+      <a class="btn secondary" href="#redeem">Lihat Redeem</a>
+    </div>
+  </section>
+
+  <section class="section" id="games">
+    <div class="section-head">
+      <h2>Game Pilihan</h2>
+      <span class="muted" id="gameCount">6 game</span>
+    </div>
+
+    <div class="searchbox">
+      <input id="search" type="search"
+        placeholder="Cari game..." aria-label="Cari game">
+    </div>
+
+    <div class="filters">
+      <button class="filter active" data-category="all">Semua</button>
+      <button class="filter" data-category="survival">Survival</button>
+      <button class="filter" data-category="action">Action</button>
+      <button class="filter" data-category="battle">Battle Royale</button>
+      <button class="filter" data-category="sandbox">Sandbox</button>
+    </div>
+
+    <div class="grid" id="gameGrid">
+      <article class="card" data-name="minecraft" data-category="survival sandbox">
+        <div class="game-icon">▦</div>
+        <h3>Minecraft</h3>
+        <p>Survival, crafting, dan petualangan.</p>
+        <button class="btn secondary" onclick="showGame('Minecraft')">Info & Redeem</button>
+      </article>
+      <article class="card" data-name="free fire" data-category="battle action">
+        <div class="game-icon">◈</div>
+        <h3>Free Fire</h3>
+        <p>Battle royale dan event hadiah.</p>
+        <button class="btn secondary" onclick="showGame('Free Fire')">Info & Redeem</button>
+      </article>
+      <article class="card" data-name="mobile legends mlbb" data-category="action">
+        <div class="game-icon">⚔</div>
+        <h3>Mobile Legends</h3>
+        <p>MOBA dan pertarungan tim.</p>
+        <button class="btn secondary" onclick="showGame('Mobile Legends')">Info & Redeem</button>
+      </article>
+      <article class="card" data-name="roblox" data-category="sandbox">
+        <div class="game-icon">□</div>
+        <h3>Roblox</h3>
+        <p>Jelajahi berbagai pengalaman game.</p>
+        <button class="btn secondary" onclick="showGame('Roblox')">Info & Redeem</button>
+      </article>
+      <article class="card" data-name="pubg mobile" data-category="battle action">
+        <div class="game-icon">▣</div>
+        <h3>PUBG Mobile</h3>
+        <p>Strategi dan battle royale.</p>
+        <button class="btn secondary" onclick="showGame('PUBG Mobile')">Info & Redeem</button>
+      </article>
+      <article class="card" data-name="terraria" data-category="survival sandbox">
+        <div class="game-icon">◇</div>
+        <h3>Terraria</h3>
+        <p>Eksplorasi, crafting, dan survival.</p>
+        <button class="btn secondary" onclick="showGame('Terraria')">Info & Redeem</button>
+      </article>
+    </div>
+    <p id="noGames" class="notice hidden">Game tidak ditemukan.</p>
+  </section>
+
+  <section class="section" id="jadwal">
+    <div class="section-head">
+      <h2>Jadwal Kode Redeem</h2>
+      <span class="tag">WIB</span>
+    </div>
+    <div class="schedule">
+      <div class="schedule-row">
+        <div><strong>Jumat</strong><div class="muted">Rilis kode redeem</div></div>
+        <time>20.00</time>
+      </div>
+      <div class="schedule-row">
+        <div><strong>Sabtu</strong><div class="muted">Rilis kode redeem</div></div>
+        <time>20.00</time>
+      </div>
+      <div class="schedule-row">
+        <div><strong>Minggu</strong><div class="muted">Rilis kode redeem</div></div>
+        <time>09.00</time>
+      </div>
+      <div class="countdown">
+        Jadwal berikutnya
+        <strong id="nextSchedule">Menghitung jadwal...</strong>
+        <div class="muted" id="countdownText">Waktu perangkat digunakan.</div>
+      </div>
+      <p class="muted">
+        Jadwal menunjukkan waktu rilis yang direncanakan, bukan jaminan
+        bahwa setiap game memiliki kode baru. Kode dapat kedaluwarsa
+        atau memiliki batas penggunaan.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="redeem">
+    <div class="section-head">
+      <h2>Kode Redeem</h2>
+      <button class="btn secondary" onclick="shareSite()">Bagikan ↗</button>
+    </div>
+
+    <div id="selectedGame" class="muted">Game: semua game</div>
+    <div id="codeList" class="notice" style="margin-top:12px">
+      Belum ada kode redeem yang diterbitkan admin.
+      Silakan cek kembali sesuai jadwal rilis GAMEZONE.
+    </div>
+    <p class="muted">
+      Gunakan kode hanya melalui situs atau aplikasi resmi game.
+      Jangan pernah memberikan kata sandi akun game untuk mengklaim hadiah.
+    </p>
+  </section>
+</main>
+
+<footer>
+  <div><strong>GAMEZONE</strong> — Info Game & Redeem</div>
+  <div>Produksi by <strong>Kenzie</strong></div>
+  <div style="margin-top:8px">Dibuat untuk komunitas gamer.</div>
+  <div style="margin-top:8px">© <span id="year"></span> GAMEZONE</div>
+</footer>
+
+<script>
+const search = document.getElementById("search");
+const cards = [...document.querySelectorAll(".card")];
+const filters = [...document.querySelectorAll(".filter")];
+let category = "all";
+let selected = "semua game";
+
+function filterGames() {
+  const q = search.value.toLowerCase().trim();
+  let visible = 0;
+
+  cards.forEach(card => {
+    const name = card.dataset.name;
+    const categories = card.dataset.category.split(" ");
+    const match = name.includes(q) &&
+      (category === "all" || categories.includes(category));
+    card.classList.toggle("hidden", !match);
+    if (match) visible++;
+  });
+
+  document.getElementById("gameCount").textContent = visible + " game";
+  document.getElementById("noGames").classList.toggle("hidden", visible !== 0);
+}
+
+search.addEventListener("input", filterGames);
+
+filters.forEach(btn => {
+  btn.addEventListener("click", () => {
+    filters.forEach(item => item.classList.remove("active"));
+    btn.classList.add("active");
+    category = btn.dataset.category;
+    filterGames();
+  });
+});
+
+function showGame(name) {
+  selected = name;
+  document.getElementById("selectedGame").textContent = "Game: " + name;
+  document.getElementById("redeem").scrollIntoView({behavior:"smooth"});
+}
+
+async function shareSite() {
+  const data = {
+    title: "GAMEZONE",
+    text: "Cek info game dan jadwal kode redeem di GAMEZONE!",
+    url: location.href
+  };
+
+  try {
+    if (navigator.share) {
+      await navigator.share(data);
+    } else {
+      await navigator.clipboard.writeText(location.href);
+      alert("Link website disalin!");
+    }
+  } catch (e) {
+    if (e.name !== "AbortError") {
+      prompt("Salin link website ini:", location.href);
+    }
+  }
+}
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* Jadwal berdasarkan waktu lokal perangkat. */
+function updateSchedule() {
+  const now = new Date();
+  const day = now.getDay(); // Minggu=0, Jumat=5, Sabtu=6
+  const hour = now.getHours();
+  const minute = now.getMinutes();
+  const second = now.getSeconds();
+
+  const slots = [
+    {day:5, hour:20, label:"Jumat, 20.00 WIB"},
+    {day:6, hour:20, label:"Sabtu, 20.00 WIB"},
+    {day:0, hour:9,  label:"Minggu, 09.00 WIB"}
+  ];
+
+  let target = null;
+  for (let add = 0; add <= 7 && !target; add++) {
+    const futureDay = (day + add) % 7;
+    for (const slot of slots) {
+      if (slot.day !== futureDay) continue;
+      if (add === 0 &&
+          (hour > slot.hour ||
+          (hour === slot.hour && (minute > 0 || second > 0)))) continue;
+
+      target = new Date(now);
+      target.setDate(now.getDate() + add);
+      target.setHours(slot.hour, 0, 0, 0);
+      target.label = slot.label;
+      break;
+    }
+  }
+
+  if (!target) return;
+
+  const diff = Math.max(0, target - now);
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins = Math.floor((diff % 3600000) / 60000);
+  const secs = Math.floor((diff % 60000) / 1000);
+
+  document.getElementById("nextSchedule").textContent = target.label;
+  document.getElementById("countdownText").textContent =
+    "Mulai dalam " + days + " hari " + hours + " jam " +
+    mins + " menit " + secs + " detik.";
+}
+updateSchedule();
+setInterval(updateSchedule, 1000);
+</script>
+</body>
+ </html>
+        
